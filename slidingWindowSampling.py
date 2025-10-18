@@ -9,6 +9,6 @@ with open("the-verdict.txt","r") as file:
     enc_sample = encoded_text[50:]
     context_size=4
     for i in range(1,context_size+1):
-        context = enc_sample[:i]
-        desired = enc_sample[i]
+        context = enc_sample[:i] # Should be list
+        desired = enc_sample[i]  # Also, needs to be converted into list in the next line 
         print(f'{tokenizer.decode(context)} ---> {tokenizer.decode([desired])}')
