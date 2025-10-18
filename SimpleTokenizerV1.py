@@ -24,6 +24,7 @@ with open('the-verdict.txt','r') as file:
     all_words = sorted(set(preprocessed))
     vocab = {token:integer for integer,token in enumerate(all_words)}
 
+# Step-3 : Creating a tokenizer for the vocabulary you just created used for encoding and decoding
 obj = SimpleTokenizerV1(vocab)
 text = """"It's the last he painted, you know," 
        Mrs. Gisburn said with pardonable pride."""
@@ -31,6 +32,9 @@ ids = obj.encode(text)
 decoded_text = obj.decode(ids)
 print(decoded_text)
 
+# But this will fail when we get a word which is not in my vocabulary and asked to be encoded and then decoded
+# new_text = "hello, I am Vaibhav"
+# new_ids = obj.encode(new_text)
 
 
 
