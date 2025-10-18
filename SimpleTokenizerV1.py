@@ -12,4 +12,25 @@ class SimpleTokenizerV1:
         text = "".join([self.int_to_str[i] for i in ids])
         text = re.sub(r'\s+([,.?!"()\'])', r'\1', text)
         return text
+    
+with open('the-verdict.txt','r') as file:
+    raw_text=file.read()
+
+    # Step-1 : Converting text into tokens 
+    preprocessed = re.split(r'([,.:;?_!"()\']|--|\s)', raw_text)
+    preprocessed = [item.strip() for item in preprocessed if item.strip()]
+    
+    # Step-2 : Creating a vocabulary having each token assigned to an integer
+    all_words = sorted(set(preprocessed))
+    vocab = {token:integer for integer,token in enumerate(all_words)}
+
+obj = SimpleTokenizerV1(vocab)
+text = """"It's the last he painted, you know," 
+       Mrs. Gisburn said with pardonable pride."""
+ids = obj.encode(text)
+decoded_text = obj.decode(ids)
+print(decoded_text)
+
+
+
 
