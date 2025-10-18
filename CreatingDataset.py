@@ -28,7 +28,19 @@ def create_dataloader(txt,max_length=256,batch_size=1,stride=128,shuffle=True,dr
 
 with open('the-verdict.txt','r') as file:
     raw_text = file.read()
-    dataset = create_dataloader(raw_text,max_length=4,batch_size=1,stride=1,shuffle=False)
+
+    vocab_size = 50257
+    output_dim = 256
+    max_length=4
+    dataset = create_dataloader(raw_text,max_length=max_length,batch_size=8,stride=max_length,shuffle=False)
     iterartor = iter(dataset)
-    first_batch = next(iterartor)
-    print(first_batch)
+    inputs,target = next(iterartor)
+
+    token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim) # Embedding layer for token id encoding having vocab_size as input and output_dim as output
+    token_embeddings = token_embedding_layer(inputs)
+
+    context_length=max_length
+    pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
+    pos_embeddings = pos_embedding_layer(torch.arange(context_length))
+
+    input_embeddings = pos_embeddings+token_embeddings
