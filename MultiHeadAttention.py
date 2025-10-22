@@ -15,7 +15,7 @@ class MultiHeadAttention(nn.Module):
         self.register_buffer('mask', torch.triu(torch.ones(context_length,context_length),diagonal=1))
 
     def forward(self,x):
-        b, num_tokens, d = x.shape
+        b, num_tokens, d_in = x.shape
         queries = self.W_query(x)
         keys = self.W_key(x)
         values = self.W_value(x)
