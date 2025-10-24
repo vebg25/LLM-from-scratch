@@ -1,9 +1,9 @@
 from Attention_chapter_2.MultiHeadAttention import MultiHeadAttention
 import torch 
 from torch import nn 
-from llm_architecture_1 import GPT_CONFIG_124M
-from LayerNormalization import LayerNorm
-from GELU import GELU, FeedForward
+from Transformer_Architecture_chapter_3.dummy_llm_architecture import GPT_CONFIG_124M
+from Transformer_Architecture_chapter_3.LayerNormalization import LayerNorm
+from Transformer_Architecture_chapter_3.GELU import GELU, FeedForward
 
 class TransformerBlock(nn.Module):
     def __init__(self, cfg):
