@@ -1,12 +1,13 @@
 import torch 
 from torch import nn
+import math
 
 class GELU(nn.Module):
     def __init__(self):
         super().__init__()
 
     def forward(self,x):
-        return 0.5*x*(1+torch.tanh(torch.sqrt(2/torch.pi)*(x+(0.044715*torch.pow(x,3)))))
+        return 0.5*x*(1+torch.tanh(math.sqrt(2.0/torch.pi)*(x+(0.044715*torch.pow(x,3)))))
     
 class FeedForward(nn.Module):
     def __init__(self, cfg):
@@ -16,6 +17,6 @@ class FeedForward(nn.Module):
             GELU(),
             nn.Linear(4 * cfg["emb_dim"], cfg["emb_dim"]),
         )
-        
+
     def forward(self, x):
         return self.layers(x)

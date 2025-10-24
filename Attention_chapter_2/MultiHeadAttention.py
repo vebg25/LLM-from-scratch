@@ -7,9 +7,9 @@ class MultiHeadAttention(nn.Module):
         self.d_out = d_out
         self.num_heads = num_heads
         self.head_dim = d_out//num_heads
-        self.W_query = nn.Linear(d_in,d_out, qkv_bias=False)
-        self.W_key = nn.Linear(d_in,d_out, qkv_bias=False)
-        self.W_value = nn.Linear(d_in,d_out,qkv_bias=False)
+        self.W_query = nn.Linear(d_in,d_out, bias=qkv_bias)
+        self.W_key = nn.Linear(d_in,d_out, bias=qkv_bias)
+        self.W_value = nn.Linear(d_in,d_out,bias=qkv_bias)
         self.dropout = nn.Dropout(dropout)
         self.out_proj = nn.Linear(d_out,d_out)
         self.register_buffer('mask', torch.triu(torch.ones(context_length,context_length),diagonal=1))
@@ -31,7 +31,7 @@ class MultiHeadAttention(nn.Module):
         attention_scores = queries @ keys.transpose(2,3)
         mask_bool = self.mask.bool()[:num_tokens,:num_tokens]
 
-        attention_scores.masked_fill_(mask_bool)
+        attention_scores.masked_fill_(mask_bool, -torch.inf)
 
         dim_k = keys.shape[-1]
         attention_weights = torch.softmax(attention_scores/(dim_k**0.5),dim=-1)
